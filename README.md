@@ -22,11 +22,14 @@ Primeiro trabalho da disciplina de Construção de Software. Este projeto visa c
 
 ### Diagramas
 
-![Diagrama de Caso de Uso]([https://github.com/filipeUEM/Construcao-de-Software/blob/main/Diagramas/Diagrama%20de%20Caso%20de%20Uso.png](https://github.com/filipeUEM/Construcao-de-Software/blob/main/Diagramas/Diagrama%20de%20Caso%20de%20Uso.png))
+#### Diagrama de Caso de Uso
+![Diagrama de Caso de Uso](https://github.com/filipeUEM/Construcao-de-Software/blob/main/Diagramas/Diagrama%20de%20Caso%20de%20Uso.png)
 
-![Diagrama de Classe]([https://github.com/filipeUEM/Construcao-de-Software/blob/main/Diagramas/Diagrama-de-classe.png](https://github.com/filipeUEM/Construcao-de-Software/blob/main/Diagramas/Diagrama-de-classe.png))
+#### Diagrama de Classe
+![Diagrama de Classe](https://github.com/filipeUEM/Construcao-de-Software/blob/main/Diagramas/Diagrama-de-classe.png)
 
-![Diagrama de Componentes]([https://github.com/filipeUEM/Construcao-de-Software/blob/main/Diagramas/Diagrama-de-classe.png](https://github.com/filipeUEM/Construcao-de-Software/blob/main/Diagramas/diagrama-de-componentes.PNG))
+#### Diagrama de Componentes
+![Diagrama de Componentes](https://github.com/filipeUEM/Construcao-de-Software/blob/main/Diagramas/diagrama-de-componentes.PNG)
 
 ### Descrição da Arquitetura
 
@@ -50,7 +53,7 @@ Primeiro trabalho da disciplina de Construção de Software. Este projeto visa c
 
 ## Links Úteis
 
-- [**Link do Repositório no GitHub**](https://github.com/seu-usuario/nome-do-projeto)
+- [**Link do Repositório no GitHub**](https://github.com/filipeUEM/Construcao-de-Software)
 - [**Link do Trello**](https://trello.com/b/seuquadroscrum)
 
 --- 
