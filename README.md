@@ -58,3 +58,14 @@ Primeiro trabalho da disciplina de Construção de Software. Este projeto visa c
 
 --- 
 
+### Acadêmicos
+
+- Filipe Amadeu Santana
+- Gustavo Henrique Franzin da Silva
+- Gustavo Tadashi Takehara
+
+### Professor
+
+- Carlos Danilo Luz
+
+
