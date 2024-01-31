@@ -51,10 +51,6 @@ Primeiro trabalho da disciplina de Construção de Software. Este projeto visa c
 | H006 | Editar Notas. Como usuário, quero poder editar todas as informações de uma nota após sua criação. A edição deve incluir a capacidade de modificar o título, a data e o conteúdo da nota, mantendo o mesmo ID, permitindo realizar alterações sem perder a referência da nota original. |
 | H007 | Logoff da Aplicação. Como usuário quero ter segurança sobre minhas informações ao sair da aplicação, portanto desejo ter a opção de deslogar ao clicar em um botão. Ao deslogar, quero retornar à tela de login, mas quero que minhas informações criadas e modificadas sejam mantidas. |
 
-## Links Úteis
-
-- [**Link do Repositório no GitHub**](https://github.com/filipeUEM/Construcao-de-Software)
-- [**Link do Trello**](https://trello.com/invite/userworkspace54146687/ATTI6b7b4f45be7054a002d411c9c505b90f64150DDA)
 
 --- 
 
