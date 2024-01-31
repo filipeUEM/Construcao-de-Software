@@ -54,7 +54,7 @@ Primeiro trabalho da disciplina de Construção de Software. Este projeto visa c
 ## Links Úteis
 
 - [**Link do Repositório no GitHub**](https://github.com/filipeUEM/Construcao-de-Software)
-- [**Link do Trello**](https://trello.com/b/seuquadroscrum)
+- [**Link do Trello**](https://trello.com/invite/userworkspace54146687/ATTI6b7b4f45be7054a002d411c9c505b90f64150DDA)
 
 --- 
 
