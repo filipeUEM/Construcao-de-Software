@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset = utf-8" />
-	<script src="./src/login.js"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset = ISO-8859-1" />
+	<script src="./src/funcoes.js"></script>
     <title>Tela de Login</title>
     <style>
         body {
@@ -53,12 +53,12 @@
 </head>
 <body>
 	<div class="login-box">
-		<h1>Controle de Vendas</h1>
+		<h1>Organizador de Notas</h1>
         <h2>Login</h2>
         <form>
-			<input  type="text"     name="username" id="username" placeholder="Digite o nome de usuario">
-			<input  type="password" name="senha"    id="senha"    placeholder="Digite a senha">
-			<button onclick="">Entrar</button>
+			<input  type="text"     name="login"    id="login" placeholder="Digite o nome de usuario">
+			<input  type="password" name="senha"    id="senha" placeholder="Digite a senha">
+			<button onclick="fazer_login()">Entrar</button>
 		</form>
     </div>
 </body>
