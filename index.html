@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Controle de Vendas</title>
+<meta http-equiv="Content-Type" content="text/html; charset = ISO-8859-1" />
+<title>Organizador de Notas</title>
 <style>
     body {
         background-color: #f0f0f0;
@@ -41,10 +42,6 @@
         cursor: pointer;
     }
 
-    .menu li:hover {
-        background-color: #444;
-    }
-
     .content {
         flex: 1;
         padding: 20px;
@@ -66,49 +63,58 @@
         padding: 5px;
     }
 
-    .submenu li:hover {
+    #btNovo:hover {
         background-color: #555;
     }
 </style>
-<script src="./src/bd.js"></script>
-<script>
-	function irPagina(menu,submenu) {
-		let caminhoArq = '';
-		
-		switch(submenu) {
-			case 1: //caminhoArq = "pg/";
-					break;
-						
-			case 2: //caminhoArq = 'pg/';
-					break;
-		
-			case 3: //caminhoArq = 'pg/';
-					break;
-		}
-		
-		if(caminhoArq == '') return;
-		
-		document.getElementById("paginas").src = caminhoArq;
-	}
-</script>
+<script src="./src/funcoes.js"></script>
 </head>
 <body>
     <div class="menu">
+		<input type='hidden' id='idUsuario' name='idUsuario'>
 		<div class="card">
 			<h3>Notas</h3>
 		</div>
         <ul>
-            <li>Notas
+            <li>
+				<ul class="submenu">
+                    <li>Usuario</li>
+                    <li id='usuarioLogado'></li>
+                </ul>
+			</li>
+			<li>Notas
                 <ul class="submenu">
-                    <li onclick="irPagina(1)">Nova Nota</li>
-                    <li onclick="irPagina(2)">Editar Nota</li>
-					<li onclick="irPagina(3)">Buscar Notas</li>
+                    <li id="btNovo" onclick="abreModalIFrame()">Nova Nota</li>
                 </ul>
             </li>
         </ul>
     </div>
     <div class="pag_direita">
-        <iframe  id="paginas" src="" width="100%" height="500"></iframe>
+        <iframe  id="paginas" src="" width="100%" height="100%"></iframe>
     </div>
+	
+	<script>
+		var dados = {
+			id: "00",
+			abreModal: "no"
+		};
+		
+		var iframe = document.getElementById('paginas').contentWindow;
+				
+		setTimeout(function() {
+			preencheUsuario();
+			
+			dados.id = document.getElementById('idUsuario').value;
+			document.getElementById("paginas").src = 'pg/buscaNota.html';
+			dados.abreModal = 'no';
+			iframe.postMessage(dados, '*');
+		}, 10);
+		
+		function abreModalIFrame(){
+		    dados.id = document.getElementById('idUsuario').value;
+			dados.abreModal = 'yes';
+			iframe.postMessage(dados, '*');
+		}
+	</script>
 </body>
 </html>
