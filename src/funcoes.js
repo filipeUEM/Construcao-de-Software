@@ -235,3 +235,220 @@ function buscarNotas(inputBuscar) {
         console.error("Erro na busca: ", event.target.error);
     };
 }
+
+function buscaRelacao(id_usu){
+	db = openRequest.result;
+	
+	var transaction  = db.transaction(["rel_nota_usu"], "readonly");
+
+	var store   = transaction.objectStore("rel_nota_usu");
+    var index   = store.index("rel_nota_usu_idx3");
+    var request = index.getAll(IDBKeyRange.bound(id_usu,id_usu));
+	
+	request.onsuccess = function() {
+        var relacoes = request.result;		
+        if (relacoes.length > 0) {
+			for (var i = 0; i < relacoes.length; i++) {
+				getNotasRelacao(relacoes[i].id_nota,relacoes[i].id_usuario);
+			}
+			
+        }
+    };
+	
+	request.onerror = function(event) {
+        console.error("Erro na busca: ", event.target.error);
+    };
+}
+
+function getNotasRelacao(id_nota,id_usu){
+	db = openRequest.result;
+	
+	var idUsuario;
+	var idNota;
+	var prioridade;
+	var titulo;
+	var conteudo;
+	
+	
+	var transaction = db.transaction(["notas"]);
+    var objectStore = transaction.objectStore("notas");
+	var index       = objectStore.index("nota_idx1");
+	var chave		= [id_usu,id_nota];
+	var request     = index.get(chave);
+	
+    request.onsuccess = function() {
+		if (request.result) {
+			idUsuario  = request.result.id_usuario;
+			idNota     = request.result.id_nota;
+			titulo     = request.result.titulo;
+			conteudo   = request.result.conteudo;
+			prioridade = request.result.prioridade;
+			
+			criarCard(idNota, idUsuario, true, titulo, conteudo, prioridade);
+		} 
+    };
+
+    request.onerror = function(event) {
+        console.error("Erro na busca: ", event.target.error);
+    };
+}
+
+function getNota(idUsuario,idNota){
+	db = openRequest.result;
+    
+    var transaction = db.transaction(["notas"], "readonly");
+    var objectStore = transaction.objectStore("notas");
+    var index 	    = objectStore.index("nota_idx1");
+    var chave       = [idUsuario,idNota];
+    var getRequest  = index.get(chave);
+	
+	getRequest.onsuccess = function(event) {
+		let registro = event.target.result;
+		if (registro) {
+			var iframe = document.getElementById('paginaNota').contentWindow;
+			iframe.postMessage(registro, '*');
+		} else {
+			alert("Registro nao encontrado!");
+		}
+	};
+
+	getRequest.onerror = function(event) {
+		console.error("Erro ao buscar registro:", event.target.error);
+	};
+}
+
+function abrirModal() {
+	document.getElementById("modal_nota").style.visibility = "visible";
+}
+
+function fecharModal() {
+	document.getElementById("modal_nota").style.visibility = "hidden";
+}
+
+function comunicaFechaModal(){
+	window.parent.postMessage("no","*");
+}
+
+function salvarNota(){
+	console.log(document.getElementById("idUsuario").value);
+	if(document.getElementById("idNota").value=="00"){
+		salvarNovaNota();
+	} else {
+		alterarNota();
+	}
+	
+	comunicaFechaModal();
+}
+
+function alterarNota(){
+	var chave       = parseInt(document.getElementById("idNota").value);
+	var transaction = db.transaction(["notas"], "readwrite");
+    var store 		= transaction.objectStore("notas");
+	var request     = store.get(chave);
+	
+	request.onsuccess = function(event) {
+		var regNota = event.target.result;
+		if (regNota) {
+			regNota.titulo      = document.getElementById('titulo').value;
+			regNota.dataCriacao = document.getElementById('data').value;
+			regNota.dataMan     = document.getElementById('data').value;
+			regNota.prioridade  = document.getElementById('prioridade').value;
+			regNota.conteudo    = document.getElementById('conteudo').value;
+			
+			var putRequest = store.put(regNota,chave);
+			
+			putRequest.onsuccess = function(event) {
+				alert('Registro alterado com sucesso.');
+			};
+			
+			putRequest.onerror = function(event) {
+				console.error('Erro ao alterar o registro:', event.target.error);
+			};
+		} else {
+			alert("Nota nao encontrada!");
+		}
+	};
+
+	request.onerror = function(event) {
+		console.error("Erro ao buscar registro:", event.target.error);
+	};
+}
+
+function salvarNovaNota(){
+	db = openRequest.result;
+	
+	var usuario     = document.getElementById("idUsuario").value;
+	var transaction = db.transaction(["notas"], "readonly");
+    var store 		= transaction.objectStore("notas");
+    var index 	    = store.index("nota_idx3");
+	
+	var request = index.getAll(IDBKeyRange.bound(usuario,usuario));
+	
+	request.onsuccess = function() {
+		var notas  = request.result;
+		var ultima = "";
+		if (!(notas.length > 0)) {
+			ultima = "01";
+		}
+		
+		for (var i = 0; i < notas.length; i++){
+			ultima = notas[i].id_nota;
+		}
+		
+		var soma = parseInt(ultima) + 1;
+		ultima = soma.toString();
+		if(soma < 9) ultima = "0" + ultima;
+		
+		var salvar  = db.transaction(["notas"], "readwrite")
+		.objectStore("notas")
+		.add({id:          ultima,
+			  id_nota:     ultima,
+		      id_usuario:  usuario,
+			  titulo:      document.getElementById("titulo").value,
+			  dataCriacao: document.getElementById("data").value,
+			  dataMan:     document.getElementById("data").value,
+			  prioridade:  document.getElementById("prioridade").value,
+			  conteudo:    document.getElementById("conteudo").value});
+		
+		salvar.onsuccess = function(event) {
+		   alert("Salva com sucesso!");
+		};
+	   
+		salvar.onerror = function(event) {
+		   alert("Erro ao salvar o registro! ");
+		};
+	};
+	
+	request.onerror = function(event) {
+        console.error("Erro na busca:", event.target.error);
+    };
+}
+
+function excluirNota(){
+	db = openRequest.result;
+	
+	var chave = [document.getElementById("idUsuario").value,document.getElementById("idNota").value];
+	
+	var transaction = db.transaction(["notas"], "readwrite");
+    var store 		= transaction.objectStore("notas");
+    var index 	    = store.index("nota_idx1");
+	var busca       = IDBKeyRange.only(chave);
+	var request     = index.openCursor(busca);
+	
+    request.onsuccess = function(event) {
+		var regNota = event.target.result;
+		if(regNota){
+			var excluiNota = store.delete(regNota.primaryKey);
+			
+			alert("Nota excluida com sucesso!");
+		} else {
+		   alert("Nota nao encontrada!");
+		}
+    };
+    
+    request.onerror = function(event) {
+       console.error("Erro ao excluir a nota: ", event.target.error);
+    }
+	
+	comunicaFechaModal();
+}
