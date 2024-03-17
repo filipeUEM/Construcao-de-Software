@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset = ISO-8859-1" />
+    <title>Nota</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+			height: 100%;
+			background-color: #333;
+			color: #fff;
+        }
+        
+        form {
+            width: 300px;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+			font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff; /* Cor do botão Salvar */
+            color: #fff; /* Cor do texto do botão Salvar */
+            border: none;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        button[type="button"] {
+            background-color: #f00; /* Cor do botão Excluir */
+        }
+
+        button:hover {
+            background-color: #0056b3; /* Cor do botão Salvar ao passar o mouse */
+        }
+
+        button[type="button"]:hover {
+            background-color: #ff0000; /* Cor do botão Excluir ao passar o mouse */
+        }
+		
+		h2 { text-align: center;}
+		
+		input, select {margin-bottom:10px;}
+    </style>
+<script src="../src/funcoes.js"></script>
+</head>
+<body>
+    <form>
+		<input type='hidden' id='idUsuario' name='idUsuario'>
+		<input type='hidden' id='idNota'    name='idNota'>
+		<h2>Notas</h2>
+		
+        <label for="titulo">Titulo:</label>
+        <input type="text" id="titulo" placeholder="Digite o titulo da nota" required>
+		<br>
+		
+		<label for="data">Data:</label>
+        <input type="text" id="data" placeholder="Data DD/MM/AAAA" maxlength="10" required>
+		<br>
+		
+        <label for="prioridade">Prioridade:</label>
+        <select id="prioridade">
+			<option value="normal" selected>Normal</option>
+			<option value="importante">Importante</option>
+			<option value="extraordinario">Extraordinario</option>
+		</select>
+		<br>
+		
+        <label for="conteudo">Conteudo:</label>
+        <textarea id="conteudo" required></textarea>
+        <br>
+		
+        <button onclick="salvarNota()"  id="btSalvar">Salvar</button>
+		<button type="button" onclick="excluirNota()" id="btExcluir">Excluir</button>
+    </form>
+	<script>
+		window.addEventListener('message', function(event) {
+			var valor = event.data;
+			document.getElementById('idUsuario').value    = valor.id_usuario;
+			document.getElementById('idNota').value       = valor.id_nota;
+			document.getElementById('titulo').value       = valor.titulo;
+			document.getElementById('data').value         = valor.dataCriacao;
+			document.getElementById('prioridade').value   = valor.prioridade;
+			document.getElementById('conteudo').innerHTML = valor.conteudo;
+        });
+		
+		document.addEventListener('DOMContentLoaded', function() {
+			const dataInput = document.getElementById('data');
+			
+			dataInput.addEventListener('input', function(event) {
+				let valorInput = event.target.value;
+				
+				valorInput = valorInput.replace(/\D/g, '');
+				
+				if (valorInput.length > 4) {
+					valorInput = valorInput.replace(/^(\d{2})(\d{2})(\d{0,4})/, '$1/$2/$3');
+				}
+				else
+				if (valorInput.length > 2) {
+					valorInput = valorInput.replace(/^(\d{2})(\d{0,2})/, '$1/$2');
+				}
+				
+				event.target.value = valorInput;
+			});
+		});
+	</script>
+</body>
+</html>

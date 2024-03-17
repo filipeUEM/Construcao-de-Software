@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset = ISO-8859-1" />
+    <title>Buscar Notas</title>
+	<script src="../src/funcoes.js"></script>
+	<style>
+		h1 {
+			border: 1px solid #000;
+			padding: 10px;
+			text-align: center;
+			background-color: #333;
+			border-radius: 10px;
+			color: #fff;
+		}
+		
+		.card {
+			width: 200px;
+			padding: 20px;
+			background-color: #f0f0f0;
+			border-radius: 8px;
+			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+			margin: 20px;
+			display: inline-block;
+			transition: box-shadow 0.3s ease-in-out;
+			cursor: pointer;
+		}
+
+		.card h2 {
+			font-size: 18px;
+			margin-bottom: 10px;
+		}
+		
+		.card h3 {
+			font-size: 14px;
+			margin-bottom: 10px;
+		}
+		
+		.card p {
+			font-size: 14px;
+			color: #666;
+		}
+		
+		.card:hover {
+			box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+		}
+		
+		#resultado {
+			background-color: #F0FFFF;
+			border: 1px solid #000;
+			border-radius: 10px;
+			padding: 10px;
+		}
+		
+		.overlay {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0, 0, 0, 0.5);
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			z-index: 999;
+			visibility: hidden;
+		}
+		
+		.modal {
+			background-color: white;
+			padding: 5px;
+			border-radius: 5px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+		}
+		
+		.btFechar {
+			position: absolute;
+			top: 10px;
+			right: 10px;
+			cursor: pointer;
+			color: #fff;
+			font-size: 32px;
+		}
+	</style>
+</head>
+<body>
+    <h1>Buscar Notas</h1>
+	<input type='hidden' id='idUsuario' name='idUsuario'>
+    <input type="text" id="inputBusca" placeholder="Coloque o titulo">
+    <button onclick='buscarNotas(document.getElementById("inputBusca").value)'>Buscar</button>
+    <div id="resultado">
+		<div id="container-card"></div>
+	</div>
+	
+	<div id="modal_nota" class="overlay">
+		<div class="modal">
+			<span class="btFechar" onclick="fecharModal()">&times;</span>
+			<iframe id="paginaNota" src="nota.html" width="350px;" height="450px;" src=""></iframe>
+		</div>
+	</div>
+	
+	<script>
+		window.addEventListener('message', function(event) {
+            var valor = event.data;
+			if(valor!="no"){
+				document.getElementById('idUsuario').value = valor.id;
+				
+				var notaNula = {
+					id_usuario: valor.id,
+					id_nota:"00",
+					titulo:"",
+					dataCriacao:"",
+					prioridade:"normal",
+					conteudo:""
+				};
+				
+				notaNula.id_usuario = valor.id;
+				
+				var iframe2 = document.getElementById('paginaNota').contentWindow;
+				iframe2.postMessage(notaNula, '*');
+				
+				if(valor.abreModal == 'yes') abrirModal();
+				if(valor.abreModal == 'no')  fecharModal();
+			} else {
+				fecharModal();
+			}
+        });
+		
+		window.addEventListener('DOMContentLoaded', function() {
+			setTimeout(function() {
+				buscarNotas("");
+			}, 20);
+		});
+		
+		
+	</script>
+</body>
+</html>
